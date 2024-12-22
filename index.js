@@ -34,8 +34,8 @@ app.use('/propertiesDetails', propertyRoutes);
 app.use('/userConnect', connectRoutes);
 app.use('/connect/external',wifiRoutes);
 
-const PORT = process.env.PORT || 5000;
-
+// For Local Testing API
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 
 exports.api = functions.https.onRequest(app);
