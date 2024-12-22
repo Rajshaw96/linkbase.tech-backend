@@ -17,6 +17,7 @@ const triggerLogin = async (req, res) => {
     email,
   } = req.body;
 
+  // Validate request parameters
   if (!location_id || !network_id || !session_id || !login_app_id) {
     return res.status(400).json({
       status: 'error',
@@ -25,14 +26,23 @@ const triggerLogin = async (req, res) => {
   }
 
   try {
+    // Get the authentication token
+    console.log('Fetching authentication token...');
     const token = await getHaloWiFiToken();
+
+    // Log token for debugging (ensure this is removed in production)
+    console.log('Authentication token:', token);
+
     if (!token) {
+      console.error('Failed to get authentication token from getHaloWiFiToken');
       return res.status(401).json({
         status: 'error',
         message: 'Failed to get authentication token',
       });
     }
 
+    // Make the API request
+    console.log('Triggering login with external API...');
     const response = await axios.post(
       'http://localhost:8000/api/connect/external/trigger-login',
       {
@@ -56,6 +66,8 @@ const triggerLogin = async (req, res) => {
       }
     );
 
+    // Save session details to the database
+    console.log('Saving session data...');
     const session = new Session({
       location_id,
       network_id,
@@ -71,6 +83,18 @@ const triggerLogin = async (req, res) => {
     });
   } catch (error) {
     console.error('Error triggering login:', error.message);
+
+    // Detailed error for debugging purposes
+    if (error.response) {
+      console.error('Response data:', error.response.data);
+      console.error('Response status:', error.response.status);
+      console.error('Response headers:', error.response.headers);
+    } else if (error.request) {
+      console.error('No response received:', error.request);
+    } else {
+      console.error('Error message:', error.message);
+    }
+
     res.status(500).json({
       status: 'error',
       message: 'Failed to trigger login',
