@@ -1,10 +1,12 @@
 require('dotenv').config();
+const cors = require('cors');
 const express = require('express');
 const connectDB = require('./config/db');
+const helmet = require('helmet');
 const propertyRoutes = require('./routes/propertyRoutes');
 const connectRoutes = require('./routes/connectRoutes');
-const helmet = require('helmet');
-const cors = require('cors'); // Add this line
+const wifiRoutes = require('./routes/wifiRoutes');
+
 
 const app = express();
 
@@ -28,8 +30,9 @@ app.use(cors({
 }));
 
 // Route handling
-app.use('/api/properties-details', propertyRoutes);
-app.use('/api/user-connect', connectRoutes);
+app.use('/api/propertiesDetails', propertyRoutes);
+app.use('/api/userConnect', connectRoutes);
+app.use('/api/connect/external',wifiRoutes);
 
 const PORT = process.env.PORT || 5000;
 
