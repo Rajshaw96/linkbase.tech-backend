@@ -1,7 +1,7 @@
 {
   "name": "Linkbase Splash Page Api",
   "version": "1.0.0",
-  "main": "index.js",
+
   "scripts": {
     "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
@@ -13,6 +13,7 @@
   "engines": {
     "node": "22"
   },
+  "main": "index.js",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -34,5 +35,6 @@
   "devDependencies": {
     "nodemon": "^3.1.4",
     "firebase-functions-test": "^3.1.0"
-  }
+  },
+  "private": true
 }
