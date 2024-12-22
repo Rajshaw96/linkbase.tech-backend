@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const propertyRoutes = require('./routes/propertyRoutes');
 const connectRoutes = require('./routes/connectRoutes');
 const wifiRoutes = require('./routes/wifiRoutes');
-
+const functions = require("firebase-functions")
 
 const app = express();
 
@@ -30,10 +30,12 @@ app.use(cors({
 }));
 
 // Route handling
-app.use('/api/propertiesDetails', propertyRoutes);
-app.use('/api/userConnect', connectRoutes);
-app.use('/api/connect/external',wifiRoutes);
+app.use('/propertiesDetails', propertyRoutes);
+app.use('/userConnect', connectRoutes);
+app.use('/connect/external',wifiRoutes);
 
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+
+exports.api = functions.https.onRequest(app);
